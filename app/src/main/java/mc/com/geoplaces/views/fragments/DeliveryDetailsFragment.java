@@ -1,10 +1,14 @@
 package mc.com.geoplaces.views.fragments;
 
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +25,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import mc.com.geoplaces.R;
 import mc.com.geoplaces.models.entities.DeliveryEntity;
@@ -118,12 +124,106 @@ public class DeliveryDetailsFragment extends Fragment implements OnMapReadyCallb
         if (deliveryId == null){
             location = new LatLng(22.336093, 114.155288);
         } else {
-            location = new LatLng(deliveryEntity.getLat(), deliveryEntity.getLng());
-            this.googleMap .addMarker(new MarkerOptions().position(location).title(deliveryEntity.getAddress()).snippet(deliveryEntity.getDescription()));
+            //location = new LatLng(deliveryEntity.getLat(), deliveryEntity.getLng());
+            //String AddressString = deliveryEntity.getAddress();
+            //String AddressString = "109年度中山區民生東路3段東往西車道（復興北路至建國北路2段）路面更新工程";
+            //String AddressString = "義村里忠孝東路3段276巷、248巷13弄(248巷7弄至復興南路1段)路面更新";
+            String AddressString = "民有里民生東路三段113巷6弄路面更新";
+            AddressString = UpdateAddress(AddressString);
+            location = getLocationFromAddress(this.getContext(), AddressString);
+            if (location == null) {
+                location = new LatLng(25.06, 121.54);
+            }
+            this.googleMap.addMarker(
+                    new MarkerOptions()
+                            .position(location)
+                            //.title(deliveryEntity.getAddress())
+                            .title(AddressString)
+                            .snippet("MarkerDescription"));
         }
         CameraPosition cameraPosition = new CameraPosition.Builder().target(location).zoom(15).build();
         this.googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
+
+    public LatLng getLocationFromAddress(Context context, String inputAddress)
+    {
+        Geocoder coder= new Geocoder(context);
+        List<Address> address;
+        LatLng AddressLatLng = null;
+        if (!Geocoder.isPresent())         // GeoCoder 無法執行
+        {
+            Log.d("getLocationFromAddress", "Geocoder Fail");
+            return null;
+        }
+        else Log.d("getLocationFromAddress", "Geocoder Success");
+        try
+        {
+            address = coder.getFromLocationName(inputAddress, 5);
+            if(address==null)                       // 找不到結果
+            {
+                Log.d("getLocationFromAddress", "Result Not Found");
+                return null;
+            }
+            Address location = address.get(0);      // 第一個結果
+            double Lat = location.getLatitude();
+            double Lon = location.getLongitude();
+            Log.d("getLocationFromAddress", "Latitude:" + String.valueOf(Lat));
+            Log.d("getLocationFromAddress", "Longitude:" + String.valueOf(Lon));
+            AddressLatLng = new LatLng(Lat, Lon);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return AddressLatLng;
+    }
+
+    public String UpdateAddress(String inputAddress)
+    {
+        String returnAddress;
+        int FirstIndex, LastIndex;
+        FirstIndex = inputAddress.indexOf("區");
+        if (FirstIndex == -1){
+            FirstIndex = inputAddress.indexOf("里");
+            if (FirstIndex == -1)
+            {
+                FirstIndex = 0;
+            }
+            else FirstIndex -= 2;
+        }
+        else
+            FirstIndex -= 2;   // 區前2字開始取
+
+        LastIndex = inputAddress.indexOf("號");
+        if (LastIndex == -1){
+            LastIndex = inputAddress.indexOf("巷");
+            if (LastIndex == -1){
+                LastIndex = inputAddress.indexOf("段");
+                if (LastIndex == -1){
+                    LastIndex = inputAddress.indexOf("路");
+                    if (LastIndex == -1){
+                        LastIndex = inputAddress.indexOf("街");
+                    }
+                }
+            }
+        }
+        returnAddress = inputAddress.substring(FirstIndex, LastIndex+1);
+        /*returnAddress = SplitString(inputAddress, "至", 0);
+        returnAddress = SplitString(returnAddress, "溝蓋", 0);
+        returnAddress = SplitString(returnAddress, "路面", 0);*/
+
+        return returnAddress;
+    }
+
+    public String SplitString(String inputAddress, String splitString, int returnPosition)
+    {
+        String[] result = inputAddress.split(splitString);
+        if (result.length > 1)         // 若結果大於兩個代表輸入字串比對成功，取指定位置回傳
+            return result[returnPosition];
+        return inputAddress;
+    }
+
+
 
     public void updatePosition(int id){
         this.googleMap.clear();

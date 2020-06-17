@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main_fl">
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/delivery_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
+
+    <include layout="@layout/part_loading_layout"
+        android:id="@+id/loading_container"
+        android:visibility="gone"/>
+
+    <include layout="@layout/part_reload_layout"
+        android:id="@+id/reload_container"
+        android:visibility="gone"/>
+
+</FrameLayout>

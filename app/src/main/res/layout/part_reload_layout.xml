@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/reload_iv"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@mipmap/img_wireless_error"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/error_connection_tv"/>
+
+    <TextView
+        android:textSize="20sp"
+        android:layout_margin="10dp"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/error_connection_txt"
+        android:id="@+id/error_connection_tv"/>
+
+    <Button
+        android:id="@+id/reload_btn"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_margin="10dp"
+        android:text="@string/reload_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/error_connection_tv"/>
+
+</RelativeLayout>

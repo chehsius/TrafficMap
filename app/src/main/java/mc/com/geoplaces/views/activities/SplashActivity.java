@@ -8,6 +8,7 @@ import android.os.Bundle;
 import mc.com.geoplaces.R;
 
 public class SplashActivity extends AppCompatActivity {
+
     private Handler handler = new Handler();
     private static final int DELAY = 3000;
 
@@ -21,6 +22,6 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
-        },DELAY);
+        }, DELAY);
     }
 }

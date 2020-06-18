@@ -1,13 +1,21 @@
 package mc.com.geoplaces.managers;
 
+import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
+import org.json.JSONStringer;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,16 +33,16 @@ public class ApiManager {
         return ourInstance == null ? new ApiManager() : ourInstance;
     }
 
-
     public void GET(final String url, final ApiServerCallback callback) {
+
         try {
             HttpsTrustManager.allowAllSSL();
-            JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
-                    url, null,
-                    new Response.Listener<JSONArray>() {
+
+            StringRequest strObjReq = new StringRequest(Request.Method.GET,
+                    url, new Response.Listener<String>() {
 
                         @Override
-                        public void onResponse(JSONArray response) {
+                        public void onResponse(String response) {
                             try {
                                 callback.onSuccess(response);
                             } catch (Exception e) {
@@ -48,7 +56,6 @@ public class ApiManager {
                 public void onErrorResponse(VolleyError error) {
                     try {
                         callback.onFailure(error.getMessage());
-
                     } catch (Exception e) {
                         e.printStackTrace();
                         callback.onFailure(e.getMessage());
@@ -70,14 +77,13 @@ public class ApiManager {
                 }
             };
             int x = 2;
-            jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 4,
+            strObjReq.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 4,
                     x, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            GeoPlacesApplication.getInstance().addToRequestQueue(jsonObjReq, "tag");
+            GeoPlacesApplication.getInstance().addToRequestQueue(strObjReq, "tag");
         } catch (Exception e) {
             e.printStackTrace();
             callback.onFailure(e.getMessage());
         }
-
     }
 
     public void CANCELALLPENDINGREQUESTS() {

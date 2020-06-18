@@ -22,7 +22,7 @@
         android:layout_weight="2"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:id="@+id/fragment_delivery_container_ll">
+        android:id="@+id/fragment_traffic_container_ll">
     </LinearLayout>
 
     <LinearLayout
@@ -30,7 +30,7 @@
         android:layout_weight="3"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:id="@+id/fragment_delivery_details_container_ll">
+        android:id="@+id/fragment_traffic_details_container_ll">
     </LinearLayout>
     </LinearLayout>
 

@@ -3,6 +3,7 @@ package mc.com.geoplaces.managers;
 import io.realm.Realm;
 
 public class RealmManager {
+
     private static Realm realm;
 
     public static Realm open() {

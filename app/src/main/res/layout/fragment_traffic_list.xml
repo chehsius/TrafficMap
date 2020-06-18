@@ -4,10 +4,8 @@
     android:layout_height="match_parent"
     android:id="@+id/main_fl">
 
-
-
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/delivery_rv"
+        android:id="@+id/traffic_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"

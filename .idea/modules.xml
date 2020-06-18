@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Desktop-TrafficMap.iml" filepath="$PROJECT_DIR$/Desktop-TrafficMap.iml" group="TrafficMap" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/TrafficMap.iml" filepath="$PROJECT_DIR$/.idea/modules/TrafficMap.iml" group="TrafficMap" />
+      <module fileurl="file://$PROJECT_DIR$/app/TrafficMap-app.iml" filepath="$PROJECT_DIR$/app/TrafficMap-app.iml" group="TrafficMap/app" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="TrafficMap/app" />
     </modules>
   </component>

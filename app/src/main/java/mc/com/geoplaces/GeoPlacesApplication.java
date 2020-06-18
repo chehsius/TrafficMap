@@ -18,7 +18,6 @@ public class GeoPlacesApplication extends Application {
     private RequestQueue requestQueue;
 
     public static synchronized GeoPlacesApplication getInstance() {
-
         return ourInstance;
     }
 

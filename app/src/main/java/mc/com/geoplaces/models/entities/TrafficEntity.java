@@ -3,26 +3,28 @@ package mc.com.geoplaces.models.entities;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class DeliveryEntity extends RealmObject {
+public class TrafficEntity extends RealmObject {
 
     @PrimaryKey
     private int id;
-    private String description;
     private String imageUrl;
     private double lat;
     private double lng;
     private String address;
+    private String type;
+    private String date;
 
-    public DeliveryEntity(int id, String description, String imageUrl, double lat, double lng, String address) {
+    public TrafficEntity(int id, String imageUrl, double lat, double lng, String address, String type, String date) {
         this.id = id;
-        this.description = description;
         this.imageUrl = imageUrl;
         this.lat = lat;
         this.lng = lng;
         this.address = address;
+        this.type = type;
+        this.date = date;
     }
 
-    public DeliveryEntity() {
+    public TrafficEntity() {
     }
 
     public int getId() {
@@ -31,14 +33,6 @@ public class DeliveryEntity extends RealmObject {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getImageUrl() {
@@ -71,5 +65,21 @@ public class DeliveryEntity extends RealmObject {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

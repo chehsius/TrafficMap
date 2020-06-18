@@ -4,7 +4,6 @@ import org.json.JSONArray;
 
 public interface ApiServerCallback {
 
-    boolean onSuccess(JSONArray result);
+    boolean onSuccess(String htmlSourceCode);
     boolean onFailure(String errorState);
-
 }

@@ -8,8 +8,8 @@ import android.support.v7.widget.Toolbar;
 
 import mc.com.geoplaces.R;
 import mc.com.geoplaces.utils.Utils;
-import mc.com.geoplaces.views.fragments.DeliveryCardFragment;
-import mc.com.geoplaces.views.fragments.DeliveryDetailsFragment;
+import mc.com.geoplaces.views.fragments.TrafficCardFragment;
+import mc.com.geoplaces.views.fragments.TrafficDetailsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,16 +27,16 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             if (Utils.isTablet(this)) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_delivery_container_ll, DeliveryCardFragment.newInstance())
+                        .replace(R.id.fragment_traffic_container_ll, TrafficCardFragment.newInstance())
                         .addToBackStack(null)
                         .commit();
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_delivery_details_container_ll, DeliveryDetailsFragment.newInstance())
+                        .replace(R.id.fragment_traffic_details_container_ll, TrafficDetailsFragment.newInstance())
                         .addToBackStack(null)
                         .commit();
                 } else {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container_ll, DeliveryCardFragment.newInstance())
+                        .replace(R.id.fragment_container_ll, TrafficCardFragment.newInstance())
                         .addToBackStack(null)
                         .commit();
             }
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         if (Utils.isTablet(this))
             System.exit(0);
         else {
-            if (!(fragment instanceof DeliveryCardFragment)) {
+            if (!(fragment instanceof TrafficCardFragment)) {
                 super.onBackPressed();
             } else {
                 System.exit(0);

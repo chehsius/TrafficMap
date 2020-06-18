@@ -1,8 +1,8 @@
 package mc.com.geoplaces.views.components;
 
 
-import mc.com.geoplaces.models.entities.DeliveryEntity;
+import mc.com.geoplaces.models.entities.TrafficEntity;
 
 public interface CardOnClickListener {
-    void onClick(DeliveryEntity deliveryEntity);
+    void onClick(TrafficEntity trafficEntity);
 }

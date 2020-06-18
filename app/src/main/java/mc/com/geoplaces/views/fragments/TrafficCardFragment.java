@@ -14,34 +14,33 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 
 import mc.com.geoplaces.R;
-import mc.com.geoplaces.models.entities.DeliveryEntity;
-import mc.com.geoplaces.models.repositories.DeliveryRepository;
-import mc.com.geoplaces.models.repositories.OnDeliveryListLoadedCallback;
+import mc.com.geoplaces.models.entities.TrafficEntity;
+import mc.com.geoplaces.models.repositories.TrafficRepository;
+import mc.com.geoplaces.models.repositories.OnTrafficProblemsLoadedCallback;
 import mc.com.geoplaces.utils.Utils;
-import mc.com.geoplaces.views.adapters.DeliveryAdapter;
+import mc.com.geoplaces.views.adapters.TrafficAdapter;
 import mc.com.geoplaces.views.components.CardOnClickListener;
 import mc.com.geoplaces.views.components.CardOnLoadMoreListener;
 import mc.com.geoplaces.views.components.CardOnLoadMoreScroll;
 
 
-public class DeliveryCardFragment extends Fragment {
+public class TrafficCardFragment extends Fragment {
 
-    private RecyclerView deliveryRecyclerView;
-    private DeliveryAdapter deliveryAdapter;
-    private RelativeLayout loadingContainer,reloadContainer;
+    private RecyclerView trafficRecyclerView;
+    private TrafficAdapter trafficAdapter;
+    private RelativeLayout loadingContainer, reloadContainer;
     private Button reloadButton;
-    private ArrayList<DeliveryEntity> deliveryEntities;
-    private DeliveryRepository deliveryRepository;
+    private ArrayList<TrafficEntity> trafficEntities;
+    private TrafficRepository trafficRepository;
     private CardOnLoadMoreScroll scrollListener;
     private LinearLayoutManager linearLayoutManager;
 
-    public DeliveryCardFragment() {
-        deliveryEntities = new ArrayList<>();
-
+    public TrafficCardFragment() {
+        trafficEntities = new ArrayList<>();
     }
 
-    public static DeliveryCardFragment newInstance() {
-        DeliveryCardFragment fragment = new DeliveryCardFragment();
+    public static TrafficCardFragment newInstance() {
+        TrafficCardFragment fragment = new TrafficCardFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -55,48 +54,50 @@ public class DeliveryCardFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        deliveryRepository = new DeliveryRepository();
+        trafficRepository = new TrafficRepository();
         loadData(false);
     }
 
     private void initView(View view){
-        deliveryRecyclerView =  view.findViewById(R.id.delivery_rv);
+        trafficRecyclerView = view.findViewById(R.id.traffic_rv);
         loadingContainer = view.findViewById(R.id.loading_container);
         reloadContainer = view.findViewById(R.id.reload_container);
         reloadButton = view.findViewById(R.id.reload_btn);
-        deliveryRecyclerView.setHasFixedSize(true);
-        linearLayoutManager=new LinearLayoutManager(getActivity());
+        trafficRecyclerView.setHasFixedSize(true);
+        linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        deliveryRecyclerView.setLayoutManager(linearLayoutManager);
+        trafficRecyclerView.setLayoutManager(linearLayoutManager);
     }
     private void setEvent(){
-        deliveryAdapter = new DeliveryAdapter(getContext(),deliveryEntities, new CardOnClickListener() {
+        trafficAdapter = new TrafficAdapter(getContext(), trafficEntities, new CardOnClickListener() {
+
             @Override
-            public void onClick(DeliveryEntity deliveryEntity) {
+            public void onClick(TrafficEntity trafficEntity) {
                 if (Utils.isTablet(getContext())){
-                    ((DeliveryDetailsFragment) getActivity()
+                    ((TrafficDetailsFragment) getActivity()
                             .getSupportFragmentManager()
-                            .findFragmentById(R.id.fragment_delivery_details_container_ll)
-                    ).updatePosition(deliveryEntity.getId());
+                            .findFragmentById(R.id.fragment_traffic_details_container_ll)
+                    ).updatePosition(trafficEntity.getId());
 //                    DeliveryDetailsFragment.getInstance().updatePosition(deliveryEntity.getId());
                 } else {
                     getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container_ll, DeliveryDetailsFragment.newInstance(deliveryEntity.getId()))
+                            .replace(R.id.fragment_container_ll, TrafficDetailsFragment.newInstance(trafficEntity.getId()))
                             .addToBackStack(null)
                             .commit();
                 }
 
             }
         });
-        deliveryRecyclerView.setAdapter(deliveryAdapter);
-        scrollListener=new CardOnLoadMoreScroll(linearLayoutManager);
+
+        trafficRecyclerView.setAdapter(trafficAdapter);
+        scrollListener = new CardOnLoadMoreScroll(linearLayoutManager);
         scrollListener.setOnLoadMoreListener(new CardOnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 loadData(true);
             }
         });
-        deliveryRecyclerView.addOnScrollListener(scrollListener);
+        trafficRecyclerView.addOnScrollListener(scrollListener);
         reloadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,38 +108,38 @@ public class DeliveryCardFragment extends Fragment {
     }
 
     private void loadData(final boolean hasNext){
-        if (hasNext){
-            deliveryAdapter.addLoadingView();
+
+        if (hasNext) {
+            trafficAdapter.addLoadingView();
         } else {
-            deliveryEntities.clear();
+            trafficEntities.clear();
             loadingContainer.setVisibility(View.VISIBLE);
         }
-        deliveryRepository.getDeliveryList(getContext(),hasNext ,  new OnDeliveryListLoadedCallback() {
-            @Override
-            public void onSuccess(ArrayList<DeliveryEntity> deliveryEntitiesResult) {
-                if (hasNext){
-                    deliveryAdapter.removeLoadingView();
-                    scrollListener.setLoaded();
-                    deliveryEntities.addAll(deliveryEntitiesResult);
-                    deliveryAdapter.notifyDataSetChanged();
-                } else {
-                    deliveryEntities.addAll(deliveryEntitiesResult);
-                    loadingContainer.setVisibility(View.GONE);
-                    deliveryAdapter.notifyDataSetChanged();
-                }
 
+        trafficRepository.getTrafficProblems(getContext(), hasNext, new OnTrafficProblemsLoadedCallback() {
+            @Override
+            public void onSuccess(ArrayList<TrafficEntity> trafficEntitiesResult) {
+                if (hasNext){
+                    trafficAdapter.removeLoadingView();
+                    scrollListener.setLoaded();
+                    trafficEntities.addAll(trafficEntitiesResult);
+                    trafficAdapter.notifyDataSetChanged();
+                } else {
+                    trafficEntities.addAll(trafficEntitiesResult);
+                    loadingContainer.setVisibility(View.GONE);
+                    trafficAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
             public void onError(String errorState) {
-                if (hasNext){
-                    deliveryAdapter.removeLoadingView();
+                if (hasNext) {
+                    trafficAdapter.removeLoadingView();
                     scrollListener.setLoaded();
                 } else {
                     loadingContainer.setVisibility(View.GONE);
                     reloadContainer.setVisibility(View.VISIBLE);
                 }
-
             }
         });
     }
@@ -146,7 +147,7 @@ public class DeliveryCardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_delivery_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_traffic_list, container, false);
         initView(view);
         setEvent();
         return view;

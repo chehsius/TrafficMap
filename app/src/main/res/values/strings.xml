@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">GeoPlaces</string>
-    <string name="title_delivery_txt">Delivery List</string>
-    <string name="title_delivery_details_txt">Delivery Details</string>
+    <string name="app_name">Traffic Map</string>
+    <string name="title_delivery_txt">Traffic Problems</string>
+    <string name="title_delivery_details_txt">Traffic Details</string>
     <string name="reload_txt">Reload</string>
     <string name="error_connection_txt">Please Check Your Network Connection</string>
-    <string name="google_maps_key"></string>
+    <string name="google_maps_key">AIzaSyDmekY0S8dXJKfBprPT5GfhMMbWoXV4Oyc</string>
 </resources>

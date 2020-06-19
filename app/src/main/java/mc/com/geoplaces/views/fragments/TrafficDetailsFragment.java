@@ -42,8 +42,8 @@ public class TrafficDetailsFragment extends Fragment implements OnMapReadyCallba
     private TrafficRepository trafficRepository;
     private TrafficEntity trafficEntity;
     private TextView addressTextView, categoryTextView, dateTextView;
-    private ImageView deliveryItemImageView;
-    private FrameLayout deliveryContainerLay;
+    private ImageView trafficItemImageView;
+    private FrameLayout trafficContainerLay;
     private static TrafficDetailsFragment fragment;
 
     public TrafficDetailsFragment() {
@@ -80,21 +80,29 @@ public class TrafficDetailsFragment extends Fragment implements OnMapReadyCallba
             trafficEntity = new TrafficEntity();
             trafficEntity = trafficRepository.getTrafficProblemsById(trafficId);
             if (!Utils.isTablet(getContext())) {
-                deliveryContainerLay.setVisibility(View.VISIBLE);
+                trafficContainerLay.setVisibility(View.VISIBLE);
                 addressTextView.setText(trafficEntity.getAddress());
                 categoryTextView.setText(trafficEntity.getType());
                 dateTextView.setText(trafficEntity.getDate());
 
-                Picasso.get()
-                        .load(trafficEntity.getImageUrl())
-                        .placeholder(R.mipmap.img_place_holder)
-                        .error(R.mipmap.img_place_holder_error)
-                        .into(deliveryItemImageView);
+                if (trafficEntity.getType().equals("道路維護通報"))
+                    trafficItemImageView.setImageResource(R.drawable.road_stuck_cat);
+                else if (trafficEntity.getType().equals("人手孔施工通報"))
+                    trafficItemImageView.setImageResource(R.drawable.manhole_squirrel);
+                else
+                    trafficItemImageView.setImageResource(R.drawable.construction_cat);
+
+//                Picasso.get()
+//                        .load(trafficEntity.getImageUrl())
+//                        .placeholder(R.mipmap.img_place_holder)
+//                        .error(R.mipmap.img_place_holder_error)
+//                        .into(trafficItemImageView);
+
             } else {
-                deliveryContainerLay.setVisibility(View.GONE);
+                trafficContainerLay.setVisibility(View.GONE);
             }
         } else
-            deliveryContainerLay.setVisibility(View.GONE);
+            trafficContainerLay.setVisibility(View.GONE);
 
     }
 
@@ -103,13 +111,13 @@ public class TrafficDetailsFragment extends Fragment implements OnMapReadyCallba
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_traffic_details, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.title_delivery_details_txt);
-        deliveryContainerLay = view.findViewById(R.id.item_container_fl);
+        trafficContainerLay = view.findViewById(R.id.item_container_fl);
         addressTextView = view.findViewById(R.id.address_tv);
         categoryTextView = view.findViewById(R.id.type_tv);
         dateTextView = view.findViewById(R.id.date_tv);
 
-        deliveryItemImageView = view.findViewById(R.id.traffic_item_iv);
-        mapView =  view.findViewById(R.id.mapView);
+        trafficItemImageView = view.findViewById(R.id.traffic_item_iv);
+        mapView = view.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
         readBundle(savedInstanceState);
@@ -132,21 +140,22 @@ public class TrafficDetailsFragment extends Fragment implements OnMapReadyCallba
         }
         else {
 //            location = new LatLng(deliveryEntity.getLat(), deliveryEntity.getLng());
-//            String AddressString = deliveryEntity.getAddress();
 //            String AddressString = "109年度中山區民生東路3段東往西車道（復興北路至建國北路2段）路面更新工程";
 //            String AddressString = "義村里忠孝東路3段276巷、248巷13弄(248巷7弄至復興南路1段)路面更新";
-            String AddressString = "民有里民生東路三段113巷6弄路面更新";
-            AddressString = UpdateAddress(AddressString);
-            location = getLocationFromAddress(this.getContext(), AddressString);
+//            String AddressString = "民有里民生東路三段113巷6弄路面更新";
+
+            String address = trafficEntity.getAddress();
+            String updatedAddress = UpdateAddress(address);
+            location = getLocationFromAddress(this.getContext(), updatedAddress);
             if (location == null) {
                 location = new LatLng(25.06, 121.54);
             }
             this.googleMap.addMarker(
                     new MarkerOptions()
                             .position(location)
-                            //.title(deliveryEntity.getAddress())
-                            .title(AddressString)
-                            .snippet("MarkerDescription"));
+                            .title(updatedAddress)
+                            .snippet(trafficEntity.getType() + "\n" + trafficEntity.getDate())
+            .flat(true));
         }
         CameraPosition cameraPosition = new CameraPosition.Builder().target(location).zoom(15).build();
         this.googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -230,7 +239,8 @@ public class TrafficDetailsFragment extends Fragment implements OnMapReadyCallba
     public String SplitString(String inputAddress, String splitString, int returnPosition)
     {
         String[] result = inputAddress.split(splitString);
-        if (result.length > 1)         // 若結果大於兩個代表輸入字串比對成功，取指定位置回傳
+        // 若結果大於兩個代表輸入字串比對成功，取指定位置回傳
+        if (result.length > 1)
             return result[returnPosition];
         return inputAddress;
     }
@@ -241,7 +251,7 @@ public class TrafficDetailsFragment extends Fragment implements OnMapReadyCallba
         TrafficEntity trafficEntity2 = new TrafficEntity();
         trafficEntity2 = trafficRepository2.getTrafficProblemsById(id);
         LatLng location = new LatLng(trafficEntity2.getLat(), trafficEntity2.getLng());
-        this.googleMap .addMarker(new MarkerOptions().position(location).title(trafficEntity2.getAddress()).snippet(trafficEntity2.getType()));
+        this.googleMap.addMarker(new MarkerOptions().position(location).title(trafficEntity2.getAddress()).snippet(trafficEntity2.getType()));
         CameraPosition cameraPosition = new CameraPosition.Builder().target(location).zoom(15).build();
         this.googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }

@@ -49,14 +49,12 @@ public class HttpsTrustManager implements X509TrustManager {
     public void checkClientTrusted(
             X509Certificate[] x509Certificates, String s)
             throws java.security.cert.CertificateException {
-
     }
 
     @Override
     public void checkServerTrusted(
             X509Certificate[] x509Certificates, String s)
             throws java.security.cert.CertificateException {
-
     }
 
     public boolean isClientTrusted(X509Certificate[] chain) {

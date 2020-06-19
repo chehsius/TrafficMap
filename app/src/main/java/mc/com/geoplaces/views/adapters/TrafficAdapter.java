@@ -2,8 +2,12 @@ package mc.com.geoplaces.views.adapters;
 
 import android.content.Context;
 import android.os.Handler;
+
+import androidx.appcompat.view.menu.MenuView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,11 +59,18 @@ public class TrafficAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ((ItemViewHolder) holder).typeTextView.setText(trafficEntity.getType());
             ((ItemViewHolder) holder).dateTextView.setText(trafficEntity.getDate());
 
-            Picasso.get()
-                    .load(trafficEntity.getImageUrl())
-                    .placeholder(R.mipmap.img_place_holder)
-                    .error(R.mipmap.img_place_holder_error)
-                    .into(((ItemViewHolder) holder).trafficItemImageView);
+            if (trafficEntity.getType().equals("道路維護通報"))
+                ((ItemViewHolder) holder).trafficItemImageView.setImageResource(R.drawable.road_stuck_cat);
+            else if (trafficEntity.getType().equals("人手孔施工通報"))
+                ((ItemViewHolder) holder).trafficItemImageView.setImageResource(R.drawable.manhole_squirrel);
+            else
+                ((ItemViewHolder) holder).trafficItemImageView.setImageResource(R.drawable.construction_cat);
+
+//            Picasso.get()
+//                    .load(trafficEntity.getImageUrl())
+//                    .placeholder(R.mipmap.img_place_holder)
+//                    .error(R.mipmap.img_place_holder_error)
+//                    .into(((ItemViewHolder) holder).trafficItemImageView);
 
             if (position == selectedIndex){
                 ((ItemViewHolder) holder).cardView.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
@@ -115,8 +126,6 @@ public class TrafficAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private TextView addressTextView, typeTextView, dateTextView;
         private ImageView trafficItemImageView;
         private CardView cardView;
-
-
 
         private ItemViewHolder(View view) {
             super(view);

@@ -1,6 +1,9 @@
 package mc.com.geoplaces.models.responses;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.widget.ImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,9 +12,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import mc.com.geoplaces.R;
 import mc.com.geoplaces.managers.ApiManager;
 import mc.com.geoplaces.managers.ApiServerCallback;
 import mc.com.geoplaces.managers.ConfigManager;

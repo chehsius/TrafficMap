@@ -16,11 +16,11 @@ public class TrafficDao {
         this.realm = realm;
     }
 
-    public void save(final List<TrafficEntity> deliveryEntities) {
+    public void save(final List<TrafficEntity> trafficEntities) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.copyToRealmOrUpdate(deliveryEntities);
+                realm.copyToRealmOrUpdate(trafficEntities);
             }
         });
     }

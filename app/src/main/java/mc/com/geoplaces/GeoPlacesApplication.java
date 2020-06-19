@@ -11,6 +11,7 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 public class GeoPlacesApplication extends Application {
+
     public static final String TAG = GeoPlacesApplication.class
             .getSimpleName();
     private static final int DEFAULT_NETWORK_THREAD_POOL_SIZE = 4;
@@ -26,7 +27,7 @@ public class GeoPlacesApplication extends Application {
         super.onCreate();
         ourInstance = this;
         Realm.init(this);
-        RealmConfiguration config = new RealmConfiguration.Builder().name("delivery.realm").build();
+        RealmConfiguration config = new RealmConfiguration.Builder().name("traffic.realm").build();
         Realm.setDefaultConfiguration(config);
     }
 

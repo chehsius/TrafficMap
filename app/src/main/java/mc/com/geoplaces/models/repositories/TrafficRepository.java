@@ -3,6 +3,7 @@ package mc.com.geoplaces.models.repositories;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -33,7 +34,9 @@ public class TrafficRepository {
                     @Override
                     public void onSuccess(ArrayList<TrafficEntity> trafficEntitiesResult) {
                         trafficDao.save(trafficEntitiesResult);
-                        page = trafficEntitiesResult.get(trafficEntitiesResult.size() - 1).getId() + 1;
+//                        page = trafficEntitiesResult.get(trafficEntitiesResult.size() - 1).getId() + 1;
+                        page++;
+                        Log.d("Page Test onSuccess", String.valueOf(page));
                         onTrafficProblemsLoadedCallback.onSuccess(trafficEntitiesResult);
                     }
 
@@ -42,7 +45,9 @@ public class TrafficRepository {
                         if (page == 1 && trafficDao.loadAll().size() != 0){
                             ArrayList<TrafficEntity> trafficEntities = new ArrayList<>();
                             trafficEntities.addAll(trafficDao.loadAll());
-                            page = trafficEntities.get(trafficEntities.size() - 1).getId() + 1;
+//                            page = trafficEntities.get(trafficEntities.size() - 1).getId() + 1;
+                            page++;
+                            Log.d("Page Test onError", String.valueOf(page));
                             onTrafficProblemsLoadedCallback.onSuccess(trafficEntities);
                         } else {
                             onTrafficProblemsLoadedCallback.onError(errorState);
@@ -54,7 +59,9 @@ public class TrafficRepository {
                     if (trafficDao.loadAll().size() != 0){
                         ArrayList<TrafficEntity> trafficEntities = new ArrayList<>();
                         trafficEntities.addAll(trafficDao.loadAll());
-                        page = trafficEntities.get(trafficEntities.size() - 1).getId() + 1;
+//                        page = trafficEntities.get(trafficEntities.size() - 1).getId() + 1;
+                        page++;
+                        Log.d("Page Test !hasNext", String.valueOf(page));
                         onTrafficProblemsLoadedCallback.onSuccess(trafficEntities);
                     } else {
                         new Handler().postDelayed(new Runnable() {

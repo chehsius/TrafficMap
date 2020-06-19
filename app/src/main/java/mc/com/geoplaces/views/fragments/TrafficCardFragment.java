@@ -68,6 +68,7 @@ public class TrafficCardFragment extends Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         trafficRecyclerView.setLayoutManager(linearLayoutManager);
     }
+
     private void setEvent(){
         trafficAdapter = new TrafficAdapter(getContext(), trafficEntities, new CardOnClickListener() {
 

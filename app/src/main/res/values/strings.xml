@@ -4,5 +4,5 @@
     <string name="title_delivery_details_txt">Traffic Details</string>
     <string name="reload_txt">Reload</string>
     <string name="error_connection_txt">Please Check Your Network Connection</string>
-    <string name="google_maps_key">AIzaSyDmekY0S8dXJKfBprPT5GfhMMbWoXV4Oyc</string>
+    <string name="google_maps_key"></string>
 </resources>

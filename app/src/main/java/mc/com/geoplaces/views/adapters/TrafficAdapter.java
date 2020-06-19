@@ -2,8 +2,8 @@ package mc.com.geoplaces.views.adapters;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,6 +115,8 @@ public class TrafficAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private TextView addressTextView, typeTextView, dateTextView;
         private ImageView trafficItemImageView;
         private CardView cardView;
+
+
 
         private ItemViewHolder(View view) {
             super(view);

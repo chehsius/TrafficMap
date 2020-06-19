@@ -1,7 +1,7 @@
 package mc.com.geoplaces.views.components;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class CardOnLoadMoreScroll extends RecyclerView.OnScrollListener {
 

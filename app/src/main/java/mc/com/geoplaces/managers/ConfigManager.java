@@ -6,7 +6,6 @@ public class ConfigManager {
 
     private String version = "1.0";
     private String protocol = "https";
-//    private String url = "mock-api-mobile.dev.lalamove.com";
     private String url = "cloud.taipei/web_tgi_cin_getList?CategoryCode=&sort=distance%20asc&pg=";
 
     private ConfigManager() {

@@ -139,16 +139,13 @@ public class TrafficDetailsFragment extends Fragment implements OnMapReadyCallba
             location = new LatLng(22.336093, 114.155288);
         }
         else {
-//            location = new LatLng(deliveryEntity.getLat(), deliveryEntity.getLng());
-//            String AddressString = "109年度中山區民生東路3段東往西車道（復興北路至建國北路2段）路面更新工程";
-//            String AddressString = "義村里忠孝東路3段276巷、248巷13弄(248巷7弄至復興南路1段)路面更新";
-//            String AddressString = "民有里民生東路三段113巷6弄路面更新";
-
-            String address = trafficEntity.getAddress();
+            //String address = trafficEntity.getAddress();
+            String address = "台北科技大學";
             String updatedAddress = UpdateAddress(address);
             location = getLocationFromAddress(this.getContext(), updatedAddress);
             if (location == null) {
-                location = new LatLng(25.06, 121.54);
+                // 若無搜尋到結果，將地點設為總統府
+                location = new LatLng(25.04, 121.5114);
             }
             this.googleMap.addMarker(
                     new MarkerOptions()
@@ -170,25 +167,25 @@ public class TrafficDetailsFragment extends Fragment implements OnMapReadyCallba
         // GeoCoder 無法執行
         if (!Geocoder.isPresent())
         {
-            Log.d("getLocationFromAddress", "Geocoder Fail");
+            Log.d("TrafficDetailsFragment", "Geocoder Fail");
             return null;
         }
-        else Log.d("getLocationFromAddress", "Geocoder Success");
+        else Log.d("TrafficDetailsFragment", "Geocoder Success");
         try
         {
             address = coder.getFromLocationName(inputAddress, 5);
             // 找不到結果
             if (address == null)
             {
-                Log.d("getLocationFromAddress", "Result Not Found");
+                Log.d("TrafficDetailsFragment", "Result Not Found");
                 return null;
             }
             // 第一個結果
             Address location = address.get(0);
             double Lat = location.getLatitude();
             double Lon = location.getLongitude();
-            Log.d("getLocationFromAddress", "Latitude:" + String.valueOf(Lat));
-            Log.d("getLocationFromAddress", "Longitude:" + String.valueOf(Lon));
+            Log.d("TrafficDetailsFragment", "Latitude:" + String.valueOf(Lat));
+            Log.d("TrafficDetailsFragment", "Longitude:" + String.valueOf(Lon));
             AddressLatLng = new LatLng(Lat, Lon);
         }
         catch (Exception e)
@@ -228,11 +225,8 @@ public class TrafficDetailsFragment extends Fragment implements OnMapReadyCallba
                 }
             }
         }
+        if (LastIndex == -1) LastIndex = inputAddress.length() - 1;
         returnAddress = inputAddress.substring(FirstIndex, LastIndex + 1);
-//        returnAddress = SplitString(inputAddress, "至", 0);
-//        returnAddress = SplitString(returnAddress, "溝蓋", 0);
-//        returnAddress = SplitString(returnAddress, "路面", 0);
-
         return returnAddress;
     }
 

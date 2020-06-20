@@ -79,7 +79,6 @@ public class TrafficResponse {
                 trafficEntity.setAddress(((Element)address.next()).ownText());
                 date = ((Element)fromDate.next()).ownText() + " 至 "  + ((Element)endDate.next()).ownText();
                 trafficEntity.setDate(date);
-
                 trafficEntities.add(trafficEntity);
             }
 

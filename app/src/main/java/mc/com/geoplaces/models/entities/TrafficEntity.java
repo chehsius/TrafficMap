@@ -13,7 +13,8 @@ public class TrafficEntity extends RealmObject {
     private String address;
     private String type;
     private String date;
-
+    //private double distance;
+    //public TrafficEntity(int id, String imageUrl, double lat, double lng, String address, String type, String date, double distance) {
     public TrafficEntity(int id, String imageUrl, double lat, double lng, String address, String type, String date) {
         this.id = id;
         this.imageUrl = imageUrl;
@@ -22,6 +23,7 @@ public class TrafficEntity extends RealmObject {
         this.address = address;
         this.type = type;
         this.date = date;
+        //this.distance = distance;
     }
 
     public TrafficEntity() {
@@ -82,4 +84,8 @@ public class TrafficEntity extends RealmObject {
     public void setDate(String date) {
         this.date = date;
     }
+
+    //public void setDistance(double distance){ this.distance = distance;}
+
+    //public double getDistance(){ return distance; }
 }

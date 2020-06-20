@@ -139,8 +139,8 @@ public class TrafficDetailsFragment extends Fragment implements OnMapReadyCallba
             location = new LatLng(22.336093, 114.155288);
         }
         else {
-            //String address = trafficEntity.getAddress();
-            String address = "台北科技大學";
+            String address = trafficEntity.getAddress();
+            //String address = "台北科技大學";
             String updatedAddress = UpdateAddress(address);
             location = getLocationFromAddress(this.getContext(), updatedAddress);
             if (location == null) {

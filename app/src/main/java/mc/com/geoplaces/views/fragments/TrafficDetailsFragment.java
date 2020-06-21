@@ -138,105 +138,22 @@ public class TrafficDetailsFragment extends Fragment implements OnMapReadyCallba
         if (trafficId == null){
             location = new LatLng(22.336093, 114.155288);
         }
-        else {
-            String address = trafficEntity.getAddress();
-            //String address = "台北科技大學";
-            String updatedAddress = UpdateAddress(address);
-            location = getLocationFromAddress(this.getContext(), updatedAddress);
-            if (location == null) {
-                // 若無搜尋到結果，將地點設為總統府
-                location = new LatLng(25.04, 121.5114);
-            }
-            this.googleMap.addMarker(
-                    new MarkerOptions()
-                            .position(location)
-                            .title(updatedAddress)
-                            .snippet(trafficEntity.getType() + "\n" + trafficEntity.getDate())
-            .flat(true));
+        else
+        {
+            location = new LatLng(trafficEntity.getLat(), trafficEntity.getLng());
         }
+
+        String address = trafficEntity.getAddress();
+        this.googleMap.addMarker(
+                new MarkerOptions()
+                        .position(location)
+                        .title(address)
+                        .snippet(trafficEntity.getType() + "\n" + trafficEntity.getDate())
+                        .flat(true));
+        Log.d("TrafficDetailsFragment", "onMapReady Latitude:" + location.latitude);
+        Log.d("TrafficDetailsFragment", "onMapReady Longitude:" + location.longitude);
         CameraPosition cameraPosition = new CameraPosition.Builder().target(location).zoom(15).build();
         this.googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-    }
-
-    public LatLng getLocationFromAddress(Context context, String inputAddress)
-    {
-        Geocoder coder = new Geocoder(context);
-        List<Address> address;
-        LatLng AddressLatLng = null;
-
-        // GeoCoder 無法執行
-        if (!Geocoder.isPresent())
-        {
-            Log.d("TrafficDetailsFragment", "Geocoder Fail");
-            return null;
-        }
-        else Log.d("TrafficDetailsFragment", "Geocoder Success");
-        try
-        {
-            address = coder.getFromLocationName(inputAddress, 5);
-            // 找不到結果
-            if (address == null)
-            {
-                Log.d("TrafficDetailsFragment", "Result Not Found");
-                return null;
-            }
-            // 第一個結果
-            Address location = address.get(0);
-            double Lat = location.getLatitude();
-            double Lon = location.getLongitude();
-            Log.d("TrafficDetailsFragment", "Latitude:" + String.valueOf(Lat));
-            Log.d("TrafficDetailsFragment", "Longitude:" + String.valueOf(Lon));
-            AddressLatLng = new LatLng(Lat, Lon);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return AddressLatLng;
-    }
-
-    public String UpdateAddress(String inputAddress)
-    {
-        String returnAddress;
-        int FirstIndex, LastIndex;
-        FirstIndex = inputAddress.indexOf("區");
-
-        if (FirstIndex == -1) {
-            FirstIndex = inputAddress.indexOf("里");
-            if (FirstIndex == -1)
-            {
-                FirstIndex = 0;
-            }
-            else FirstIndex -= 2;
-        }
-        else
-            FirstIndex -= 2;   // 區前2字開始取
-
-        LastIndex = inputAddress.indexOf("號");
-        if (LastIndex == -1) {
-            LastIndex = inputAddress.indexOf("巷");
-            if (LastIndex == -1) {
-                LastIndex = inputAddress.indexOf("段");
-                if (LastIndex == -1) {
-                    LastIndex = inputAddress.indexOf("路");
-                    if (LastIndex == -1) {
-                        LastIndex = inputAddress.indexOf("街");
-                    }
-                }
-            }
-        }
-        if (LastIndex == -1) LastIndex = inputAddress.length() - 1;
-        returnAddress = inputAddress.substring(FirstIndex, LastIndex + 1);
-        return returnAddress;
-    }
-
-    public String SplitString(String inputAddress, String splitString, int returnPosition)
-    {
-        String[] result = inputAddress.split(splitString);
-        // 若結果大於兩個代表輸入字串比對成功，取指定位置回傳
-        if (result.length > 1)
-            return result[returnPosition];
-        return inputAddress;
     }
 
     public void updatePosition(int id){

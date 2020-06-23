@@ -133,8 +133,9 @@ public class TrafficDetailsFragment extends Fragment implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
-        LatLng location;
+        googleMap.setMyLocationEnabled(true);
 
+        LatLng location;
         if (trafficId == null){
             location = new LatLng(22.336093, 114.155288);
         }
